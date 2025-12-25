@@ -22,7 +22,7 @@ jobs:
       # 3️⃣ Decode keystore (original name)
       - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > simple_quotes.jks
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > app/simple_quotes.jks
 
       # 4️⃣ Create keystore.properties
       - name: Create keystore properties
