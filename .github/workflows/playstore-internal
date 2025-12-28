@@ -22,15 +22,16 @@ jobs:
       # 3️⃣ Decode keystore (original name)
       - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > app/simple_quotes.jks
+           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/simple_quotes.jks
+           ls -lh app/simple_quotes.jks
 
       # 4️⃣ Create keystore.properties
-      - name: Create keystore properties
-        run: |
-          echo "storeFile=simple_quotes.jks" >> keystore.properties
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+      #- name: Create keystore properties
+        #run: |
+          #echo "storeFile=simple_quotes.jks" >> keystore.properties
+          #echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
+          #echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
+          #echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
 
       # 5️⃣ Grant Gradle permission
       - name: Grant execute permission
@@ -41,11 +42,11 @@ jobs:
         run: ./gradlew bundleRelease
 
       # 7️⃣ Upload to Play Store (Internal Testing)
-      - name: Upload to Play Store - Internal
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON }}
-          packageName: com.jpdev.simplequotes   # 🔴 replace this
-          releaseFiles: app/build/outputs/bundle/release/app-release.aab
-          track: internal
-          status: draft
+      #- name: Upload to Play Store - Internal
+       # uses: r0adkll/upload-google-play@v1
+       # with:
+          #serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON }}
+         # packageName: com.jpdev.simplequotes   # 🔴 replace this
+          #releaseFiles: app/build/outputs/bundle/release/app-release.aab
+         # track: internal
+          #status: draft
