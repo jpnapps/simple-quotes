@@ -72,8 +72,8 @@ jobs:
           packageName: com.jpdev.simplequotes   # 🔴 replace this
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
-          #status: draft
-          status: completed
+          status: draft
+          #status: completed
           whatsNewDirectory: whatsnew/ # Points to the folder containing 'en-US'
 
 # --- JOB 2: PROMOTE INTERNAL TO PRODUCTION ---
