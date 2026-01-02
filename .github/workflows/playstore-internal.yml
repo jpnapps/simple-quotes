@@ -37,9 +37,18 @@ jobs:
       - name: Grant execute permission
         run: chmod +x gradlew
 
+      # 6️⃣ Run Android Lint (quality gate)
+      - name: Run Lint
+        run: ./gradlew lintRelease
+
+#      # 5️⃣ Run Unit Tests
+#      - name: Run Unit Tests
+#        run: ./gradlew testReleaseUnitTest
+
       # 6️⃣ Build Release AAB
       - name: Build Release Bundle
         env:
+          #GITHUB_RUN_NUMBER: ${{ github.run_number }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -54,3 +63,5 @@ jobs:
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
           status: draft
+         # status: completed
+          whatsNewDirectory: whatsnew/
