@@ -1,7 +1,16 @@
-name: Play Store Internal Release (Manual)
+name: Play Store Internal Release (Manual) and Professional Pipeline
+
+#on:
+#  workflow_dispatch:   # 👈 Manual run only
 
 on:
-  workflow_dispatch:   # 👈 Manual run only
+  workflow_dispatch:
+    inputs:
+      promote_to_production:
+        description: 'Set to "true" to promote the current Internal build to Production'
+        required: true
+        default: 'false'
+        type: boolean
 
 jobs:
   internal-release:
@@ -62,6 +71,22 @@ jobs:
           packageName: com.jpdev.simplequotes   # 🔴 replace this
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
-          status: draft
-         # status: completed
+          #status: draft
+          status: completed
           whatsNewDirectory: whatsnew/ # Points to the folder containing 'en-US'
+
+        # --- JOB 2: PROMOTE INTERNAL TO PRODUCTION ---
+        promote-production:
+          if: github.event.inputs.promote_to_production == 'true'
+          runs-on: ubuntu-latest
+          steps:
+            - name: Promote Release
+              uses: r0adkll/upload-google-play@v1
+              with:
+                serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+                packageName: com.jpdev.simplequotes
+                track: production      # Target destination
+                trackPromote: internal  # Source of the "Same Build"
+                status: inProgress
+                userFraction: 0.10      # Best Practice: 10% Rollout
+                whatsNewDirectory: whatsnew/
