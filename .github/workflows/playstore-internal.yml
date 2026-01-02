@@ -64,4 +64,4 @@ jobs:
           track: internal
           status: draft
          # status: completed
-          whatsNewDirectory: whatsnew/
+          whatsNewDirectory: whatsnew/ # Points to the folder containing 'en-US'
